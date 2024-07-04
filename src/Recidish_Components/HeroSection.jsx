@@ -13,16 +13,12 @@ export default function HeroSection() {
 
       let bgImg = [friedRice, pounded, riceStew, crisp];
       const [bgIndex, setBgIndex] = useState(1);
-      const intervalDuration = 3000;
+      const intervalDuration = 2500;
 
       useEffect(() => {
         const interval = setInterval(() => {
           setBgIndex((prevIndex) => {
-            if (prevIndex < bgImg.length) {
-              return prevIndex + 1;
-            } else if (prevIndex >= bgImg.length) {
-              return 0;
-            }
+            return (prevIndex === bgImg.length -1 ? 0 : prevIndex + 1)
           });
         }, intervalDuration);
         return () => clearInterval(interval);
@@ -31,7 +27,7 @@ export default function HeroSection() {
     
       <div
         id="hero"
-        style={{ backgroundImage: `url(${bgImg[0]
+        style={{ backgroundImage: `url(${bgImg[bgIndex]
         })` }}
         className={`bg-center h-screen `}
       >
