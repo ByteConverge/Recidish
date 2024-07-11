@@ -132,7 +132,7 @@ function SignUpPage() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://recidishbackend.onrender.com/api/register",
+          "https://recidishbackend.onrender.com/api/auth/register",
           {
             method: "POST",
             headers: {
@@ -157,10 +157,18 @@ function SignUpPage() {
             setErrors({ api: "" });
           }, 6000);
           console.log(response);
+        
         }
+
+       const data = await response.json() ;
+
+       console.log(data);
+
       } catch (error) {
         setIsLoading(false);
-        setErrors({ api: "Poor Network. Try again! " });
+        setErrors({ api: "failed to signup " });
+        console.log(error);
+        
       }
     }
   };

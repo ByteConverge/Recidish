@@ -91,7 +91,7 @@ function SignInPage() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://recidishbackend.onrender.com/api/login",
+          "https://recidishbackend.onrender.com/api/auth/login",
           {
             method: "POST",
             headers: {
@@ -126,6 +126,8 @@ function SignInPage() {
       } catch (error) {
         setIsLoading(false);
         setErrors({ api: "Poor Network. Try again! " });
+        console.log(error);
+        
       }
     }
   };
@@ -180,7 +182,7 @@ function SignInPage() {
           </div>
           {/* h1{sign Up} */}
           <h1 className="text-[1.4rem]  w-[100%]  flex flex-col justify-en  sm:mb-2">
-            Sign Up
+            Sign In
           </h1>
           {/* form content */}
           <div
@@ -267,7 +269,7 @@ function SignInPage() {
               </button>
               {/*  */}
               <p className="w-full">
-                Have an account? <Link to="/signUp">Sign In</Link>
+                Have an account? <Link to="/signUp">Sign Up</Link>
               </p>
             </div>
           </div>

@@ -8,9 +8,9 @@ import SignUpPage from "./Pages/SignUpPage"
 const loggedInStatus = localStorage.getItem("isLoggedIn")
 let loggedInPage ;
 if(loggedInStatus === "true"){
-  loggedInPage = <SignUpPage />
-}else{
   loggedInPage = <HomePage />
+}else{
+  loggedInPage = <SignInPage />
 }
   function App() {
     return (
