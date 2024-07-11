@@ -37,7 +37,7 @@ export default function LoggedInNavBar() {
               to="/"
               style={({ isActive }) => (isActive ? activeStyles : null)}
               onClick={removeHandle}
-              className="hover:underline text-[1.5rem]  text-white  transition duration-1000 ease-in-out"
+              className="hover:underline text-[1.5rem] font-[inter] text-white  transition duration-1000 ease-in-out"
             >
               Home
             </NavLink>
@@ -45,7 +45,7 @@ export default function LoggedInNavBar() {
               to="/about"
               style={({ isActive }) => (isActive ? activeStyles : null)}
               onClick={removeHandle}
-              className="hover:underline text-[1.5rem]  text-white  transition duration-1000 ease-in-out"
+              className="hover:underline text-[1.5rem] font-[inter] text-white  transition duration-1000 ease-in-out"
             >
               About us
             </NavLink>
@@ -53,7 +53,7 @@ export default function LoggedInNavBar() {
           <div className="w-full sm:w-2/5 flex justify-center items-center gap-4">
             <Link
               to="/signIn"
-              className="h-12 w-28 flex items-center justify-center border text-[black] bg-[#DEAA72] rounded-[5px] font-bold"
+              className="h-12 w-28 flex items-center justify-center border text-[black] bg-[#DEAA72] rounded-[5px] font-bold "
             >
               Login
             </Link>
