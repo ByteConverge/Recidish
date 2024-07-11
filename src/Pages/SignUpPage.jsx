@@ -149,7 +149,7 @@ function SignUpPage() {
           setIsModalOpen(true);
           window.localStorage.setItem("isLoggedIn", "true");
           setTimeout(() => {
-            navigate("/");
+            navigate("/loggedInHome");
           }, 3000);
         } else {
           setErrors({ api: "User with Email already exist" });

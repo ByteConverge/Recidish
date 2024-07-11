@@ -108,7 +108,7 @@ function SignInPage() {
           setIsModalOpen(true);
           window.localStorage.setItem("isLoggedIn", "true");
           setTimeout(() => {
-            navigate("/");
+            navigate("/loggedInHome");
           }, 3000);
         } else {
           setErrors({ api: "Wrong Email or password" });
