@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
+import Xlogo from "../Recidish_Images/Xlogo.svg"
+import facebookLogo from "../Recidish_Images/facebookLogo.svg";
+import googleLogo from "../Recidish_Images/googleLogo.svg"
 
 let currentYear = new Date().getFullYear()
 
 export default function Footer() {
   return (
-    <footer className="bg-black p-4 md:p-12 flex flex-col items-center md:items-start border-t border-gray-800 min-h-[50vh] md:h-[45vh]">
+    <footer className="bg-black p-4 md:p-12 flex flex-col items-center md:items-start border-t border-gray-800 min-h-[50vh] md:h-[45vh] ">
       <div className="flex w-full md:pl-16 h-[15%] md:h-[40%] items-center justify-center md:justify-start gap-2.5 md:gap-1">
         <figure className="w-16 md:w-30 h-[50%] md:h-full grid place-items-center transform -translate-y-2 md:-translate-y-5">
           <img src="enomalogo2.PNG" alt="" className="h-full w-full" />
@@ -24,25 +27,22 @@ export default function Footer() {
             <Link className="text-white pl-0 md:pl-4">Security</Link>
             <Link className="text-white">Cookie Preferences</Link>
           </div>
-          <p className="text-white">&copy; {currentYear} E-NOMA</p>
+          <p className="text-white">&copy; {currentYear} || Recidish</p>
         </div>
         <div className="flex flex-col items-center justify-center md:justify-start gap-2.5 md:gap-2.5 w-[50%] md:w-40 h-[20%] md:h-auto">
           <h3 className="text-white text-base md:text-lg">Contact Us</h3>
-          <div className="flex gap-1.75">
-            <Link>
-              <figure>
-                <img src="Xlogo.svg" alt="" />
-              </figure>
+          <div className="flex gap-[.5rem]">
+            <Link className="grid place-items-center w-[2rem]">
+              <img src={Xlogo} alt="x" className="h-[80%]" />
             </Link>
-            <Link>
-              <figure>
-                <img src="facebookLogo.svg" alt="" />
-              </figure>
+
+            <Link className="grid place-items-center w-[2rem]">
+              <img src={facebookLogo} alt="" className="h-[80%]" />
             </Link>
-            <Link>
-              <figure>
-                <img src="instaLogo.svg" alt="" />
-              </figure>
+            <Link className="grid place-items-center w-[2rem]">
+             
+                <img src={googleLogo} alt="" className="h-[80%]" />
+           
             </Link>
           </div>
         </div>
