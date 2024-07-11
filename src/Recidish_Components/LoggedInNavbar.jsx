@@ -35,7 +35,7 @@ export default function LoggedInNavBar() {
               <NavLink
                 to="/loggedInHome"
                 onClick={removeHandle}
-                className="hover:underline text-[1.5rem]  text-white  transition duration-[2s] ease-in-out "
+                className="hover:underline text-[1.5rem]  text-white  transition duration-1000 ease-in-out "
               >
                 Home
               </NavLink>
