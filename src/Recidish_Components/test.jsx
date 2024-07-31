@@ -1,76 +1,128 @@
-import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
-export default function NavBar() {
-  const [hambugMenu, setHambugMenu] = useState(false);
+const AddRecipeForm = () => {
+  const [formData, setFormData] = useState({
+    category: "",
+    title: "",
+    details: "",
+    image: null,
+  });
 
-  function handleClick() {
-    setHambugMenu((prevState) => !prevState);
-  }
+  const [formErrors, setFormErrors] = useState({});
 
-  function removeHandle() {
-    setHambugMenu(false);
-  }
+  const handleChange = (e) => {
+    if (e.target.name === "image") {
+      const file = e.target.files[0];
+      if (file && file.size <= 3145728) {
+        // 3MB in bytes
+        setFormData({ ...formData, [e.target.name]: file });
+      } else {
+        alert("Image size should be less than 3MB");
+      }
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
 
-  const activeStyles = {
-    textDecoration: "underline",
-    fontSize: "1.5rem",
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Basic form validation
+    const errors = {};
+    if (!formData.category) errors.category = "Category is required";
+    if (!formData.title) errors.title = "Title is required";
+    if (!formData.details)
+      errors.details = "Ingredients and steps are required";
+    if (!formData.image) errors.image = "Image is required";
+
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      // Handle form submission logic here, e.g., send data to an API
+      const formDataToSend = new FormData();
+      formDataToSend.append("category", formData.category);
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("details", formData.details);
+      formDataToSend.append("image", formData.image);
+
+      // Send formDataToSend to your API
+      console.log(formDataToSend); // For demonstration
+    }
+  };
+
+  const isFormValid = () => {
+    return Object.keys(formErrors).length === 0;
   };
 
   return (
-    <nav
-      className={`flex justify-between items-center w-full py-4 px-8 sm:px-16 h-[10vh] fixed sm:absolute bg-white sm:bg-[#ffffff65] z-50 `}
-    >
-      <figure className="transform sm:translate-x-28 w-8 h-8 mb-1.5 sm:w-12 sm:h-12">
-        <img src="enomalogo2.PNG" alt="" className="w-full " />
-      </figure>
-      <div
-        className={`
-          hidden sm:flex
-         w-full sm:w-1/2 sm:flex-row sm:bg-transparent  sm:relative sm:top-0 sm:text-bla sm:mr-20  sm:text-black flex-col justify-between items-center  bg-[black] fixed  top-[10vh] left-0 h-[90vh] sm:h-auto z-40  text-white`}
-      >
-        <div className="w-full sm:w-2/5 flex flex-col sm:flex-row justify-center items-center gap-10 sm:gap-4 font-medium text-lg sm:text-base">
-          <NavLink
-            to="/"
-            style={({ isActive }) => (isActive ? activeStyles : null)}
-            onClick={removeHandle}
-            className="hover:underline text-xl"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/about"
-            style={({ isActive }) => (isActive ? activeStyles : null)}
-            onClick={removeHandle}
-            className="hover:underline text-xl"
-          >
-            About
-          </NavLink>
-          <NavLink to="/" className="hover:underline text-xl">
-            FAQ
-          </NavLink>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Category:</label>
+        <div>
+          <input
+            type="radio"
+            name="category"
+            value="rice"
+            checked={formData.category === "rice"}
+            onChange={handleChange}
+          />
+          <label>Rice</label>
         </div>
-        <div className="w-full sm:w-2/5 flex justify-center items-center gap-4">
-          <Link
-            to="/signIn"
-            className="h-12 w-28 flex items-center justify-center border text-[black] bg-[#DEAA72] rounded-[5px] font-bold"
-          >
-            Login
-          </Link>
-          <Link
-            to="/signUp"
-            className="h-12 w-28  grid place-items-center bg-[#996D3E] rounded-[5px] font-bold"
-          >
-            Sign up
-          </Link>
+        <div>
+          <input
+            type="radio"
+            name="category"
+            value="soup"
+            checked={formData.category === "soup"}
+            onChange={handleChange}
+          />
+          <label>Soup</label>
         </div>
+        <div>
+          <input
+            type="radio"
+            name="category"
+            value="spags"
+            checked={formData.category === "spags"}
+            onChange={handleChange}
+          />
+          <label>Spags</label>
+        </div>
+        {formErrors.category && (
+          <span className="error">{formErrors.category}</span>
+        )}
       </div>
-      <span
-        className="flex sm:hidden text-3xl cursor-pointer"
-        onClick={handleClick}
-      >
-        {hambugMenu ? "\u2715" : "\u2630"}
-      </span>
-    </nav>
+      <div>
+        <label>Recipe Title:</label>
+        <input
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+        />
+        {formErrors.title && <span className="error">{formErrors.title}</span>}
+      </div>
+      <div>
+        <label>Ingredients and Steps:</label>
+        <textarea
+          name="details"
+          value={formData.details}
+          onChange={handleChange}
+        />
+        {formErrors.details && (
+          <span className="error">{formErrors.details}</span>
+        )}
+      </div>
+      <div>
+        <label>Image:</label>
+        <input type="file" name="image" onChange={handleChange} />
+        {formErrors.image && <span className="error">{formErrors.image}</span>}
+      </div>
+      <button type="submit" disabled={!isFormValid()}>
+        Add Recipe
+      </button>
+    </form>
   );
-}
+};
+
+export default AddRecipeForm;

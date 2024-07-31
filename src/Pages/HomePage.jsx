@@ -13,7 +13,7 @@ export default function HomePage() {
       <NavBar />
       <HeroSection />
       {/* Homepage body */}
-      <div className="min-h-[100vh] my-[1rem] sm:w-[95%] sm:mx-auto ">
+      <main className="min-h-[100vh] my-[1rem] sm:w-[95%] sm:mx-auto ">
         {/* welcome Flavors one */}
         <div
           id="welcomeFlavors"
@@ -101,7 +101,7 @@ export default function HomePage() {
         </div>
 
         {/*  */}
-      </div>
+      </main>
       <Footer />
     </>
   );

@@ -14,27 +14,27 @@ export default function About() {
       <main className="min-h-[70vh] my-[1rem] sm:w-[95%] sm:mx-auto">
         <div id="what we offer" className="sm:min-h-[5vh]  ">
           <h1 className="sm:text-[#996D3E] sm:text-[40px]">What we offer</h1>
-          <p className="sm:text-[24px] sm:font-[600] ">
+          <p className="sm:text-[24px]  ">
             At Recidish, we provide a comprehensive collection of authentic
             Nigerian recipes, complete with detailed instructions, ingredient
             lists, and cooking tips. Our goal is to make it easy for you to
             recreate the flavors of Nigeria in your own kitchen, no matter where
             you are in the world.
           </p>
-          <ul className="sm:text-[24px] sm:font-[600] ">
-            <li className="list-disc">
+          <ul className="indent sm:text-[24px] font-poppins  ">
+            <li className="list-disc font-poppins">
               Authentic Recipes: Each recipe on our site is carefully curated to
               ensure authenticity and taste. From traditional classics to modern
               twists, we offer a wide range of dishes that showcase the
               diversity of Nigerian cuisine.
             </li>
-            <li className="list-disc">
+            <li className="list-disc font-poppins">
               Step-by-Step Guides: Our recipes are designed to be easy to
               follow, with clear step-by-step instructions and helpful tips.
               Whether you are a novice cook or an experienced chef, you will
               find everything you need to create delicious Nigerian meals.
             </li>
-            <li className="list-disc">
+            <li className="list-disc font-poppins ">
               Community Engagement: We believe that food brings people together.
               Our platform allows you to share your own recipes, rate and review
               others, and connect with fellow Nigerian food enthusiasts. Join

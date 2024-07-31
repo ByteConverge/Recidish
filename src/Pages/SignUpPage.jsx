@@ -149,8 +149,8 @@ function SignUpPage() {
           setIsModalOpen(true);
           window.localStorage.setItem("isLoggedIn", "true");
           setTimeout(() => {
-            navigate("/loggedInHome");
-          }, 3000);
+            console.log('Logged In');
+          }, 1000);
         } else {
           setErrors({ api: "User with Email already exist" });
           setTimeout(() => {
@@ -183,7 +183,8 @@ function SignUpPage() {
       {/* form wrapper black--cover*/}
       <div
         id="form wrapper"
-        className="w-[100%] min-h-[100vh] bg-black bg-opacity-50 flex flex-col sm:w-[50%] sm:h-[80vh] sm:rounded-[2rem] "
+        className="w-[100%] h-[100vh]  flex flex-col sm:w-[50%]  sm:rounded-[2rem] "
+        style={{ background: "rgba(0, 0, 0, 0.80)", minheight:"80dvh" }}
       >
         {/* Form section */}
         <form

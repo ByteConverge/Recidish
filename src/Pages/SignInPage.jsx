@@ -19,6 +19,9 @@ function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [disable, setDisable] = useState(true);
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] =
+    useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
@@ -34,17 +37,13 @@ function SignInPage() {
 
   const validate = () => {
     let tempErrors = {};
-
-    
-
-
+    // Add any validation logic here if needed
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
 
   const handleChange = (e) => {
     let { name, value } = e.target;
-
     setFormData({ ...formData, [name]: value });
   };
 
@@ -63,10 +62,9 @@ function SignInPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {  email, password } = formData;
+    const { email, password } = formData;
 
-    // Basic validation
-    if ( !email || !password ) {
+    if (!email || !password) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         form: "All fields are required",
@@ -80,12 +78,6 @@ function SignInPage() {
       }, 2000);
       return;
     }
-   
-    
-
-    
-
-    
 
     if (validate()) {
       setIsLoading(true);
@@ -101,6 +93,9 @@ function SignInPage() {
           }
         );
 
+        const data = await response.json();
+        console.log("Login Response Data:", data); // Log the response data
+
         setIsLoading(false);
 
         if (response.ok) {
@@ -111,24 +106,60 @@ function SignInPage() {
             navigate("/loggedInHome");
           }, 3000);
         } else {
-          setErrors({ api: "Wrong Email or password" });
+          setErrors({ api: data.message || "Wrong Email or password" });
           setTimeout(() => {
             setErrors({ api: "" });
           }, 6000);
-          console.log(response);
+          console.log("Login Error Response:", data); // Log the error response
         }
 
-        const data = await response.json()
-        console.log(data);
-        localStorage.setItem("token", data.accessToken )
-        
-
+        localStorage.setItem("token", data.accessToken);
       } catch (error) {
         setIsLoading(false);
         setErrors({ api: "Poor Network. Try again! " });
-        console.log(error);
-        
+        console.log("Login Network Error:", error);
       }
+    }
+  };
+        // HANDLE SUBMIT
+  const handleForgotPasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateEmail(forgotPasswordEmail)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        forgotPassword: "Invalid email address.",
+      }));
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "https://recidishbackend.onrender.com/auth/forgotpassword",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: forgotPasswordEmail ,
+        }
+      );
+
+      const data = await response.json();
+      console.log("Forgot Password Response Data:", data); // Log the response data
+      console.log(data);
+
+      if (response.ok) {
+        alert("Password reset email sent successfully.");
+        setIsForgotPasswordModalOpen(false);
+      } else {
+        setErrors({
+          forgotPassword: data.message || "Failed to send reset email.",
+        });
+        console.log("Forgot Password Error Response:", data); // Log the error response
+      }
+    } catch (error) {
+      setErrors({ forgotPassword: "Network error. Please try again later." });
+      console.log("Forgot Password Network Error:", error);
     }
   };
 
@@ -136,27 +167,27 @@ function SignInPage() {
     // Background Overall
     <div
       id="backgroundOverall"
-      className={` w-[100%] min-h-[100vh] sm:bg-cover sm:bg-no-repeat sm:grid sm:place-items-center `}
+      className={`w-[100%] min-h-[100vh] sm:bg-cover sm:bg-no-repeat sm:grid sm:place-items-center`}
       style={{ backgroundImage: `url(${signInImg})` }}
     >
       {/* form wrapper black--cover*/}
       <div
         id="form wrapper"
-        className="w-[100%] min-h-[100vh] bg-black bg-opacity-50 flex flex-col sm:w-[50%] sm:h-[80vh] sm:rounded-[2rem] "
+        className="w-[100%] min-h-[100vh] bg-black bg-opacity-50 flex flex-col sm:w-[50%] sm:h-[80vh] sm:rounded-[2rem]"
       >
         {/* Form section */}
         <form
           id="form section"
-          className="text-white flex flex-col justify-start gap-0 px-5 py-7    items-center h-[100%] sm:h-[90%] sm:w-[70%] sm:justify-start sm:gap-0 sm:mt-2 sm:mx-auto sm:translate-y-7 "
+          className="text-white flex flex-col justify-start gap-0 px-5 py-7 items-center h-[100%] sm:h-[90%] sm:w-[70%] sm:justify-start sm:gap-0 sm:mt-2 sm:mx-auto sm:translate-y-7"
           onSubmit={handleSubmit}
         >
-          {/*social-media-signin  */}
+          {/* social-media-signin  */}
           <div id="SocialMediaSignings" className="flex flex-col gap-3 w-full">
             {/* google signing */}
             <a
               id="google-signin"
               href="#"
-              className=" flex bg-white text-black justify-center gap-1 p-1 rounded-3xl"
+              className="flex bg-white text-black justify-center gap-1 p-1 rounded-3xl"
             >
               <img src={googleImg} alt="" className="h-[1.5rem]" />
               <h1>Continue with Google</h1>
@@ -181,13 +212,13 @@ function SignInPage() {
             <span className="w-[50%] h-[1px] bg-white"></span>
           </div>
           {/* h1{sign Up} */}
-          <h1 className="text-[1.4rem]  w-[100%]  flex flex-col justify-en  sm:mb-2">
+          <h1 className="text-[1.4rem] w-[100%] flex flex-col justify-en sm:mb-2">
             Sign In
           </h1>
           {/* form content */}
           <div
             id="form-content"
-            className=" w-[100%] h-[90%] flex flex-col gap-1 sm:gap-0  "
+            className="w-[100%] h-[90%] flex flex-col gap-1 sm:gap-0"
           >
             {/* error message top*/}
             {errors.form && (
@@ -200,10 +231,13 @@ function SignInPage() {
                 {errors.api}
               </p>
             )}
+            {errors.forgotPassword && (
+              <p className="bg-black text-red-500 text-center rounded ">
+                {errors.forgotPassword}
+              </p>
+            )}
 
-            {/* check */}
-
-            {/*Name Email Password div  */}
+            {/* Name Email Password div */}
             <div
               id="NameEmailPassword"
               className="flex flex-col gap-1 mb-4 sm:gap-0"
@@ -221,9 +255,8 @@ function SignInPage() {
                   onBlur={handleBlur}
                   className="px-4 block w-full border-white border-[1.5px] border-solid bg-black bg-opacity-50 focus:outline-none focus:border-white rounded-xl h-[2.5rem] sm:h-[1.7rem]"
                 />
-               
               </div>
-              {/* password */}
+              {/* Password */}
               <div className="mb-2 sm:mb-1">
                 <label htmlFor="password" className="">
                   Password
@@ -236,7 +269,6 @@ function SignInPage() {
                   onBlur={handleBlur}
                   className="px-4 block w-full border-white border-[1.5px] border-solid bg-black bg-opacity-50 focus:outline-none focus:border-white rounded-xl h-[2.5rem] sm:h-[1.7rem]"
                 />
-                
               </div>
 
               {/* Show password */}
@@ -251,7 +283,7 @@ function SignInPage() {
                 </span>
               </div>
             </div>
-            {/* Sign Up button */}
+            {/* Sign In button */}
             <div className="signin w-full sm:mx-auto">
               <button
                 className={`signin-button w-full ${
@@ -267,14 +299,24 @@ function SignInPage() {
                   "Sign In"
                 )}
               </button>
-              {/*  */}
               <p className="w-full">
                 Have an account? <Link to="/signUp">Sign Up</Link>
+              </p>
+              <p className="w-full text-center mt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsForgotPasswordModalOpen(true)}
+                  className="text-blue-400 underline"
+                >
+                  Forgot Password?
+                </button>
               </p>
             </div>
           </div>
         </form>
       </div>
+
+      {/* Success modal */}
       {isModalOpen && (
         <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="modal bg-white p-6 rounded">
@@ -282,6 +324,47 @@ function SignInPage() {
               Success!
             </h2>
             <p>Login successful.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Forgot Password modal */}
+      {isForgotPasswordModalOpen && (
+        <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="modal bg-white p-6 rounded">
+            <h2 className="text-2xl mb-4 text-center">Forgot Password</h2>
+            <form onSubmit={handleForgotPasswordSubmit}>
+              <label htmlFor="forgotPasswordEmail" className="block mb-2">
+                Enter your email address
+              </label>
+              <input
+                type="email"
+                name="forgotPasswordEmail"
+                value={forgotPasswordEmail}
+                onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                className="px-4 block w-full border-black border-[1.5px] border-solid bg-gray-100 focus:outline-none rounded-xl h-[2.5rem]"
+              />
+              {errors.forgotPassword && (
+                <p className="text-red-500 text-center mt-2">
+                  {errors.forgotPassword}
+                </p>
+              )}
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  type="button"
+                  onClick={() => setIsForgotPasswordModalOpen(false)}
+                  className="px-4 py-2 bg-gray-300 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
